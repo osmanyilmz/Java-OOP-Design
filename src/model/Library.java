@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Library {
 
-    protected List<Book> books;
-    protected List<Reader> readers;
+    private List<Book> books;
+    private List<Reader> readers;
 
     public Library() {}
 

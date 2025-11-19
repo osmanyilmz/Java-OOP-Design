@@ -1,18 +1,20 @@
 package model.member;
 
+import model.person.Reader;
+
 public class member_Record {
-    protected int member_id;
-    protected String type;
-    protected String date_of_membership;
-    protected int no_books_issued;
-    protected int max_book_limit;
-    protected String name;
-    protected String no;
-    protected String address;
+    private int member_id;
+    private String type;
+    private String date_of_membership;
+    private int no_books_issued;
+    private int max_book_limit;
+    private String name;
+    private String address;
+    private String phone_no;
 
     public member_Record() {}
 
-    public void get_member() {}
+    public Reader getMember() { return null; }
     public void inc_book_issued() {}
     public void dec_book_issued() {}
     public void pay_bill() {}

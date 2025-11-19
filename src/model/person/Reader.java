@@ -5,7 +5,7 @@ import model.book.Book;
 import java.util.List;
 
 public class Reader extends Person {
-    protected List<Book> books;
+    private List<Book> books;
 
     public Reader() {}
 
