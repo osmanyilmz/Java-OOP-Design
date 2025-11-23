@@ -1,18 +1,12 @@
 package model;
 
-import model.book.Book;
-import model.person.Reader;
+import model.person.Person;
 
-public class Librarian {
-    private String name;
-    private String password;
+public class Librarian extends Person {
+    private Library library;
 
-    public Librarian() {}
+    public Librarian(String name, String id, Library library) {
+        super(name, id);
+    }
 
-    public void searchBook(String title) {}
-    public void verifyMember(Reader r) {}
-    public void issueBook(Book b, Reader r) {}
-    public void calculateFine(Reader r) {}
-    public void createBill(Reader r, Book b) {}
-    public void returnBook(Book b, Reader r) {}
 }

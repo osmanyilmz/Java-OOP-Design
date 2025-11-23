@@ -1,17 +1,22 @@
 package model.person;
 
+
 import model.book.Book;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Reader extends Person {
-    private List<Book> books;
 
-    public Reader() {}
+    private List<Book> borrowedBooks;
 
-    public void purchase_book() {}
-    public void borrow_book() {}
-    public void return_book() {}
-    @Override
-    public void whoyouare() {}
+
+    public Reader(String name, String id) {
+        super(name, id);
+        this.borrowedBooks = new ArrayList<>();
+    }
+
+    public List<Book> getBorrowedBooks() {
+        return borrowedBooks;
+    }
 }
