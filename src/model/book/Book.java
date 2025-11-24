@@ -3,8 +3,8 @@ package model.book;
 import model.person.Author;
 
 public class Book {
-    private int book_ID;
-    private Author author;
+    private String book_ID;
+    private String author;
     private String name;
     //private double price;
     private String status;
@@ -12,7 +12,7 @@ public class Book {
     //private Date date_of_purchase;
     private BookCategory category;
 
-    public Book(int book_ID, Author author, String name, BookCategory category) {
+    public Book(String book_ID, String author, String name, BookCategory category) {
         this.book_ID = book_ID;
         this.author = author;
         this.name = name;
@@ -20,11 +20,11 @@ public class Book {
         this.category = category;
     }
 
-    public int getBook_ID() {
+    public String getBook_ID() {
         return book_ID;
     }
 
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
@@ -48,7 +48,7 @@ public class Book {
         return "ID: " + book_ID + ", Title: " + name + ", Author: " + author + ", Status: " + status + ", Category: " + category;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 

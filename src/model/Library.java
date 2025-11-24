@@ -28,4 +28,20 @@ public class Library {
         this.bookMap = new HashMap<>();
         this.librarian = new Librarian("Cansu", "1", this);
     }
+
+    public Map<String ,Book> getBookMap(){
+        return bookMap;
+    }
+
+    public Set<String> getBookIds() {
+        return bookIds;
+    }
+
+    public void addBook(Book book) {
+        librarian.addBook(book);
+    }
+
+    public Book findBookById(String id) {
+        return bookMap.get(id);
+    }
 }
