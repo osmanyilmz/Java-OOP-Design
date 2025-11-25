@@ -1,9 +1,10 @@
 package model;
-
 import model.book.Book;
+import model.book.BookCategory;
 import model.book.Borrowable;
 
 import java.io.Reader;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Library {
@@ -44,4 +45,95 @@ public class Library {
     public Book findBookById(String id) {
         return bookMap.get(id);
     }
+
+    public List<Book> findBooksByTitle(String title) {
+        List<Book> filteredBooks = new ArrayList<>();
+        for(Book book: books) {
+            if(book.getName().equalsIgnoreCase(title)){
+                filteredBooks.add(book);
+            }
+        }
+        return  filteredBooks;
+    }
+
+    public List<Book> findBooksByAuthor(String author) {
+        List<Book> filteredBooks = new ArrayList<>();
+        for(Book book: books) {
+            if(book.getName().equalsIgnoreCase(author)){
+                filteredBooks.add(book);
+            }
+        }
+        return  filteredBooks;
+    }
+
+    public void updateBookInfo(String bookId, String newTitle, String newAuthor, BookCategory newCategory) {
+        librarian.updateBook(bookId, newTitle, newAuthor, newCategory);
+    }
+
+    public void removeBook(String bookId) {
+        librarian.removeBook(bookId);
+    }
+
+    public List<Book> listBooksCategory(BookCategory category) {
+        List<Book> filteredBooks = new ArrayList<>();
+        for(Book book: books) {
+            if (book.getCategory() == category) {
+                filteredBooks.add(book);
+            }
+        }
+        return filteredBooks;
+    }
+
+    public void borrowBook(model.Reader reader, Book book, LocalDate borrowDate) {
+        if (book.getStatus().equals("AVAILABLE")) {
+            reader.borrowBook(book);
+            Borrowable record = new Borrowable(reader.getId(), book.getBook_ID(), borrowDate);
+            borrowRecords.add(record);
+            borrowRecordMap.computeIfAbsent(reader.getId(), k -> new ArrayList<>()).add(record);
+            book.updateStatus("BORROWED");
+            bookMap.put(book.getBook_ID(), book);
+            System.out.println("Kitap başarıyla ödünç alındı.");
+        } else {
+            System.out.println("Bu kitap mevcut değil.");
+        }
+    }
+
+    public void returnBook(model.Reader reader, Book book, LocalDate returnDate, int damagedPages) {
+        if(!reader.getBorrowedBooks().contains(book)) {
+            System.out.println(reader.getName() + "adlı okuyucu tarafından bu kitap ödünç alınmadı.");
+            return;
+        }
+        reader.returnBook(book);
+
+        List<Borrowable> records = borrowRecordMap.get(reader.getId());
+        if(records == null) {
+            System.out.println(reader.getName() + "adlı kullanıcıya ait ödünç kitap kaydı bulunamadı.");
+            return;
+        }
+
+        Borrowable record = records.stream().filter(r -> r.getBookId().equals(book.getBook_ID())).findFirst().orElse(null);
+
+        if(record != null) {
+            record.setReturnDate(returnDate);
+        }
+
+        int allowedDays = 30;
+        Bill bill = new Bill(10.0, record.getBorrowDate());
+        double totalCharge = bill.calculateTotalCharge(returnDate, allowedDays, damagedPages);
+
+        if(totalCharge> 30) {
+            System.out.println("Ek Ödeme Gerekli: " + (totalCharge - 10.0) + " TL");
+        } else {
+            System.out.println("Geri Ödeme Tutarı: " + (10.0 - totalCharge) + " TL");
+        }
+
+        System.out.println(bill.generateInvoice(returnDate, allowedDays, damagedPages));
+
+        book.updateStatus("AVALIABLE");
+        bookMap.put(book.getBook_ID(),book);
+        System.out.println("Kitap İade Süreci Tamamlandı.");
+
+
+    }
+
 }

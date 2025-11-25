@@ -4,8 +4,8 @@ import model.person.Author;
 
 public class Book {
     private String book_ID;
-    private String author;
     private String name;
+    private String author;
     //private double price;
     private String status;
     //private String edition;

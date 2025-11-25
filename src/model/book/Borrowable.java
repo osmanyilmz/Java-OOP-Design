@@ -8,7 +8,7 @@ public class Borrowable {
     private LocalDate borrowDate;
     private LocalDate returnDate;
 
-    public Borrowable(String readerId, String bookId, LocalDate borrowDate, LocalDate returnDate) {
+    public Borrowable(String readerId, String bookId, LocalDate borrowDate) {
         this.readerId = readerId;
         this.bookId = bookId;
         this.borrowDate = borrowDate;
