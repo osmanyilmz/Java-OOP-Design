@@ -1,7 +1,7 @@
 import model.book.Library;
 import model.book.Reader;
 import model.book.Book;
-import model.book.BookCategory;
+import model.enums.BookCategory;
 
 import java.time.LocalDate;
 import java.util.Scanner;

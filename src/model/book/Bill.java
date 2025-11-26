@@ -38,7 +38,7 @@ public class Bill {
         return borrowFee + lateFee + damageFee;
     }
 
-    public String generateInvoice(LocalDate actualReturnDate, int allowedDays, int damagedPages) {
+    public String generateBill(LocalDate actualReturnDate, int allowedDays, int damagedPages) {
         this.returnDate = actualReturnDate;
         double totalCharge = calculateTotalCharge(actualReturnDate, allowedDays, damagedPages);
         return "Borrow Fee: " + borrowFee + " TL\n" +

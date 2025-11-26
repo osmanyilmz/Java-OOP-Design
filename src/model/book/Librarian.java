@@ -1,5 +1,6 @@
 package model.book;
 
+import model.enums.BookCategory;
 import model.person.Person;
 
 public class Librarian extends Person {

@@ -1,4 +1,4 @@
-package model.book;
+package model.enums;
 
 public enum BookCategory {
     FICTION,

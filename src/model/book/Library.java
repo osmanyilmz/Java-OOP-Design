@@ -1,5 +1,7 @@
 package model.book;
 
+import model.enums.BookCategory;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -133,13 +135,13 @@ public class Library {
             System.out.println("Geri Ödeme Tutarı: " + (10.0 - totalCharge) + " TL");
         }
 
-        System.out.println(bill.generateInvoice(returnDate, allowedDays, damagedPages));
+        System.out.println(bill.generateBill(returnDate, allowedDays, damagedPages));
 
         book.updateStatus("AVALIABLE");
         bookMap.put(book.getBook_ID(),book);
         System.out.println("Kitap İade Süreci Tamamlandı.");
 
-
+        Notification notification = new Notification("Kitap İade Edildi: " + book.getName() + ", Toplam Ücret: " + totalCharge + " TL", LocalDate.now());
+        System.out.println("Bildirim: " + notification.getMessage() + " | Tarih: " + notification.getNotificationDate());
     }
-
 }

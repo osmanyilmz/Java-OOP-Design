@@ -1,5 +1,7 @@
 package model.book;
 
+import model.enums.BookCategory;
+
 public class Journals extends Book {
 
 
