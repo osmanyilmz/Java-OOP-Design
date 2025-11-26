@@ -6,10 +6,7 @@ public class Book {
     private String book_ID;
     private String name;
     private String author;
-    //private double price;
     private String status;
-    //private String edition;
-    //private Date date_of_purchase;
     private BookCategory category;
 
     public Book(String book_ID, String author, String name, BookCategory category) {

@@ -1,9 +1,5 @@
-package model;
-import model.book.Book;
-import model.book.BookCategory;
-import model.book.Borrowable;
+package model.book;
 
-import java.io.Reader;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -28,6 +24,16 @@ public class Library {
         this.borrowRecordMap = new HashMap<>();
         this.bookMap = new HashMap<>();
         this.librarian = new Librarian("Cansu", "1", this);
+    }
+
+    public void addReader(model.book.Reader reader) {
+        if(readerIds.contains(reader.getId())) {
+            System.out.println("Kimliği " + reader.getId() + " olan okuyucu zaten mevcut.");
+        } else {
+            readers.add(reader);
+                readerIds.add(reader.getId());
+                System.out.println("Okuyucu başarıyla eklendi.");
+        }
     }
 
     public Map<String ,Book> getBookMap(){
@@ -84,7 +90,7 @@ public class Library {
         return filteredBooks;
     }
 
-    public void borrowBook(model.Reader reader, Book book, LocalDate borrowDate) {
+    public void borrowBook(Reader reader, Book book, LocalDate borrowDate) {
         if (book.getStatus().equals("AVAILABLE")) {
             reader.borrowBook(book);
             Borrowable record = new Borrowable(reader.getId(), book.getBook_ID(), borrowDate);
@@ -98,7 +104,7 @@ public class Library {
         }
     }
 
-    public void returnBook(model.Reader reader, Book book, LocalDate returnDate, int damagedPages) {
+    public void returnBook(Reader reader, Book book, LocalDate returnDate, int damagedPages) {
         if(!reader.getBorrowedBooks().contains(book)) {
             System.out.println(reader.getName() + "adlı okuyucu tarafından bu kitap ödünç alınmadı.");
             return;

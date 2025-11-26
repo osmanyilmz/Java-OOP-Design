@@ -1,7 +1,6 @@
-package model;
+package model.book;
 
 
-import model.book.Book;
 import model.person.Person;
 
 import java.util.ArrayList;

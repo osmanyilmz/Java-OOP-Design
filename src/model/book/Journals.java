@@ -4,7 +4,8 @@ import model.person.Author;
 
 public class Journals extends Book {
 
-    public Journals(int book_ID, Author author, String name, BookCategory category) {
+
+    public Journals(String book_ID, String author, String name, BookCategory category) {
         super(book_ID, author, name, category);
     }
 

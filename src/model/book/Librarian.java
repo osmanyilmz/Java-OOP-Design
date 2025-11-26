@@ -1,7 +1,5 @@
-package model;
+package model.book;
 
-import model.book.Book;
-import model.book.BookCategory;
 import model.person.Person;
 
 public class Librarian extends Person {

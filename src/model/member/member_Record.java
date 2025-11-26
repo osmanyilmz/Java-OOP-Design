@@ -1,6 +1,6 @@
 package model.member;
 
-import model.Reader;
+import model.book.Reader;
 
 import java.util.Objects;
 
