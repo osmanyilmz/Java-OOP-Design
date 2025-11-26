@@ -80,7 +80,7 @@ public class Library {
         librarian.removeBook(bookId);
     }
 
-    public List<Book> listBooksCategory(BookCategory category) {
+    public List<Book> listBooksByCategory(BookCategory category) {
         List<Book> filteredBooks = new ArrayList<>();
         for(Book book: books) {
             if (book.getCategory() == category) {

@@ -1,7 +1,5 @@
 package model.book;
 
-import model.person.Author;
-
 public class Book {
     private String book_ID;
     private String name;

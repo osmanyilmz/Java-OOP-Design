@@ -1,9 +1,5 @@
 package model.book;
 
-import model.person.Author;
-
-import java.util.Date;
-
 public class Magazines extends Book {
 
 
