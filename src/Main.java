@@ -20,14 +20,16 @@ public class Main {
             System.out.println("2. Okuyucu Ekle");
             System.out.println("3. ID'ye Göre Kitap Arama");
             System.out.println("4. Başlığa Göre Kitap Arama");
-            System.out.println("5. Kitapları Kategoriye Göre Listele");
+            System.out.println("5. Tüm Kitapları Listele");
             System.out.println("6. Kitap Ödünç Al");
             System.out.println("7. Kitabı İade Et");
             System.out.println("8. Yazar Adına Göre Kitap Arama");
             System.out.println("9. Kitap Bilgilerini Güncelle");
-            System.out.println("10. Kitap Sil");
-            System.out.println("11. Tüm Kitapları Listele");
-            System.out.println("12. Çıkış");
+            System.out.println("10.Kitap Sil");
+            System.out.println("11. Kitapları Kategoriye Göre Listele");
+            System.out.println("12.Kitap Sahibini değiştir");
+            System.out.println("13.Okuycuları Listele");
+            System.out.println("14.Çıkış");
             System.out.println("Bir Seçenek Seçin: ");
 
             int choice = scanner.nextInt();
@@ -79,16 +81,12 @@ public class Main {
                     String searchTitle = scanner.nextLine();
                     library.findBooksByTitle(searchTitle).forEach(book -> System.out.println(book.getDetails()));
                     break;
-
                 case 5:
-                    System.out.println("Listelenecek Bir Kategori Seçin: FICTION, PSYCHOLOGY, HISTORY, POETRY, PHILOSOPHY, ART");
-                    String listCategoryInput = scanner.nextLine().toUpperCase();
-
-                    try {
-                        BookCategory listCategory = BookCategory.valueOf(listCategoryInput);
-                        library.listBooksByCategory(listCategory).forEach(book -> System.out.println(book.getDetails()));
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Geçersiz Kategori. Lütfen Tekrar Deneyin!");
+                    System.out.println("Kütüphanedeki Tüm Kitaplar:");
+                    if (library.getBookMap().isEmpty()) {
+                        System.out.println("Kütüphanede kitap bulunmamaktadır.");
+                    } else {
+                        library.getBookMap().values().forEach(book -> System.out.println(book.getDetails()));
                     }
                     break;
 
@@ -201,15 +199,67 @@ public class Main {
                     break;
 
                 case 11:
-                    System.out.println("Kütüphanedeki Tüm Kitaplar:");
-                    if (library.getBookMap().isEmpty()) {
-                        System.out.println("Kütüphanede kitap bulunmamaktadır.");
-                    } else {
-                        library.getBookMap().values().forEach(book -> System.out.println(book.getDetails()));
+                    System.out.println("Listelenecek Bir Kategori Seçin: FICTION, PSYCHOLOGY, HISTORY, POETRY, PHILOSOPHY, ART");
+                    String listCategoryInput = scanner.nextLine().toUpperCase();
+
+                    try {
+                        BookCategory listCategory = BookCategory.valueOf(listCategoryInput);
+                        library.listBooksByCategory(listCategory).forEach(book -> System.out.println(book.getDetails()));
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Geçersiz Kategori. Lütfen Tekrar Deneyin!");
                     }
                     break;
 
                 case 12:
+                    System.out.println("Kitap ID'sini Giriniz: ");
+                    String bookIdToChange = scanner.nextLine();
+                    Book bookToChangeOwner = library.findBookById(bookIdToChange);
+
+                    if(bookToChangeOwner == null) {
+                        System.out.println("Kitap bulunamadı!");
+                        break;
+                    }
+
+                    System.out.println("Yeni sahibi için Okuyucu ID'sini Giriniz: ");
+                    String newOwnerId = scanner.nextLine();
+                    Reader newOwner = library.findReaderById(newOwnerId);
+
+                    if(newOwner == null) {
+                        System.out.println("Okuyucu bulunamadı!");
+                        break;
+                    }
+
+                    Reader oldOwner = bookToChangeOwner.getOwner();
+                    if(oldOwner != null) {
+                        oldOwner.getBorrowedBooks().remove(bookToChangeOwner);
+                    }
+
+                    bookToChangeOwner.setOwner(newOwner);
+                    System.out.println("Kitabın sahibi başarıyla değiştirildi: " + newOwner.getName());
+                    break;
+
+                case 13:
+                    System.out.println("Kütüphanedeki Okuyucular ve Ödünç Aldıkları Kitaplar:");
+
+                    if(library.getReaders().isEmpty()) {
+                        System.out.println("Kütüphanede okuyucu bulunmamaktadır.");
+                    } else {
+                        for(Reader r : library.getReaders()) {
+                            System.out.println("Okuyucu: " + r.getName() + " | ID: " + r.getId());
+
+                            if(r.getBorrowedBooks().isEmpty()) {
+                                System.out.println("   Ödünç aldığı kitap yok.");
+                            } else {
+                                System.out.println("   Ödünç aldığı kitaplar:");
+                                for(Book b : r.getBorrowedBooks()) {
+                                    System.out.println("      - " + b.getDetails());
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                case 14:
                     System.out.println("Sistemden Çıkılıyor!");
                     scanner.close();
                     return;

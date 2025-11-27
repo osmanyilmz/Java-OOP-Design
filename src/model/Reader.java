@@ -1,8 +1,6 @@
 package model;
 
 
-import model.person.Person;
-
 import java.util.ArrayList;
 import java.util.List;
 

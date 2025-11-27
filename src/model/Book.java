@@ -8,13 +8,15 @@ public class Book {
     private String author;
     private String status;
     private BookCategory category;
+    private Reader owner;
 
     public Book(String book_ID, String name, String author, BookCategory category) {
         this.book_ID = book_ID;
         this.name = name;
         this.author = author;
-        this.status = "AVAILABLE";
         this.category = category;
+        this.status = "AVAILABLE";
+        this.owner = null;
     }
 
     public String getBook_ID() {
@@ -43,6 +45,14 @@ public class Book {
 
     public String getDetails() {
         return "ID: " + book_ID + ", Title: " + name + ", Author: " + author + ", Status: " + status + ", Category: " + category;
+    }
+
+    public Reader getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Reader owner) {
+        this.owner = owner;
     }
 
     public void setAuthor(String author) {

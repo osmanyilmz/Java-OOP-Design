@@ -1,7 +1,6 @@
 package model;
 
 import model.enums.BookCategory;
-import model.person.Person;
 
 public class Librarian extends Person {
     private Library library;

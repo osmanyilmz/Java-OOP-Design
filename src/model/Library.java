@@ -39,6 +39,10 @@ public class Library {
         addBook(new Book("4", "Nutuk", "Mustafa Kemal Atatürk", BookCategory.HISTORY));
     }
 
+    public List<Reader> getReaders() {
+        return readers;
+    }
+
     public void addReader(Reader reader) {
         if(readerIds.contains(reader.getId())) {
             System.out.println("Kimliği " + reader.getId() + " olan okuyucu zaten mevcut.");
