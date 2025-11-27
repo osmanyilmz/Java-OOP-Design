@@ -1,4 +1,4 @@
-package model.book;
+package model;
 
 
 import model.person.Person;
@@ -9,7 +9,6 @@ import java.util.List;
 public class Reader extends Person {
 
     private List<Book> borrowedBooks;
-
 
     public Reader(String name, String id) {
         super(name, id);

@@ -1,4 +1,4 @@
-package model.book;
+package model;
 
 import model.enums.BookCategory;
 
@@ -26,9 +26,20 @@ public class Library {
         this.borrowRecordMap = new HashMap<>();
         this.bookMap = new HashMap<>();
         this.librarian = new Librarian("Cansu", "1", this);
+
+        addReader(new Reader("Osman Yılmaz", "R1"));
+        addReader(new Reader("Mehmet Yılmaz", "R2"));
+        addReader(new Reader("Ayşe Yılmaz", "R3"));
     }
 
-    public void addReader(model.book.Reader reader) {
+    public void loadDefaultBooks() {
+        addBook(new Book("1", "Suç ve Ceza", "Dostoyevski", BookCategory.FICTION));
+        addBook(new Book("2", "1984", "George Orwell", BookCategory.FICTION));
+        addBook(new Book("3", "Bilinçaltının Gücü", "Joseph Murphy", BookCategory.PSYCHOLOGY));
+        addBook(new Book("4", "Nutuk", "Mustafa Kemal Atatürk", BookCategory.HISTORY));
+    }
+
+    public void addReader(Reader reader) {
         if(readerIds.contains(reader.getId())) {
             System.out.println("Kimliği " + reader.getId() + " olan okuyucu zaten mevcut.");
         } else {
@@ -64,10 +75,19 @@ public class Library {
         return  filteredBooks;
     }
 
+    public Reader findReaderById(String id) {
+        for (Reader r : readers) {
+            if (r.getId().equals(id)) {
+                return r;
+            }
+        }
+        return null;
+    }
+
     public List<Book> findBooksByAuthor(String author) {
         List<Book> filteredBooks = new ArrayList<>();
         for(Book book: books) {
-            if(book.getName().equalsIgnoreCase(author)){
+            if(book.getAuthor().equalsIgnoreCase(author)){
                 filteredBooks.add(book);
             }
         }

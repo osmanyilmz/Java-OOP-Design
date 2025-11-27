@@ -9,7 +9,7 @@ Proje sayımız ilerledikçe proje yönetimimizi kolaylaştırmak adına projele
 
 ### Hedeflerimiz:
 
-### model.book.Library System
+### model.Library System
 
  * ![](challenge1.png)
  * Bir kütüphane sistemi modelimiz mevcut.

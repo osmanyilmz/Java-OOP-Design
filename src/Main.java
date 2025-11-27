@@ -1,6 +1,6 @@
-import model.book.Library;
-import model.book.Reader;
-import model.book.Book;
+import model.Library;
+import model.Reader;
+import model.Book;
 import model.enums.BookCategory;
 
 import java.time.LocalDate;
@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Library library = new Library();
+        library.loadDefaultBooks();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Kütüphaneye Hoşgeldiniz");
@@ -25,7 +26,8 @@ public class Main {
             System.out.println("8. Yazar Adına Göre Kitap Arama");
             System.out.println("9. Kitap Bilgilerini Güncelle");
             System.out.println("10. Kitap Sil");
-            System.out.println("11. Çıkış");
+            System.out.println("11. Tüm Kitapları Listele");
+            System.out.println("12. Çıkış");
             System.out.println("Bir Seçenek Seçin: ");
 
             int choice = scanner.nextInt();
@@ -71,6 +73,7 @@ public class Main {
                         System.out.println("Kitap Bulunamadı!");
                     }
                     break;
+
                 case 4:
                     System.out.println("Aramak İstediğiniz Kitap Başlığını Giriniz: ");
                     String searchTitle = scanner.nextLine();
@@ -92,47 +95,79 @@ public class Main {
                 case 6:
                     System.out.println("Okuyucu ID'nizi Giriniz: ");
                     String readerId6 = scanner.nextLine();
+
+                    Reader readerForBorrow = library.findReaderById(readerId6);
+                    if (readerForBorrow == null) {
+                        System.out.println("Okuyucu bulunamadı!");
+                        break;
+                    }
+
                     System.out.println("Ödünç Alınacak Kitap ID'sini Giriniz: ");
                     String borrowBookId = scanner.nextLine();
+
+                    Book bookToBorrow = library.findBookById(borrowBookId);
+                    if (bookToBorrow == null) {
+                        System.out.println("Kitap bulunamadı!");
+                        break;
+                    }
+
                     System.out.println("Ödünç Alma Tarihini Giriniz (YYYY-MM-DD): ");
                     String borrowDateInput = scanner.nextLine();
 
-                    LocalDate borrowDate = LocalDate.parse(borrowDateInput);
-                    Reader readerForBorrow = new Reader("Test Reader", readerId6);
-                    Book bookToBorrow = library.findBookById(borrowBookId);
-
-                    if (bookToBorrow != null) {
-                        library.borrowBook(readerForBorrow, bookToBorrow, borrowDate);
-                    } else {
-                        System.out.println("Kitap Bulunamadı.");
+                    LocalDate borrowDate;
+                    try {
+                        borrowDate = LocalDate.parse(borrowDateInput);
+                    } catch (Exception e) {
+                        System.out.println("Tarih formatı yanlış!");
+                        break;
                     }
+                    library.borrowBook(readerForBorrow, bookToBorrow, borrowDate);
                     break;
 
-
                 case 7:
-                    System.out.println("Okuyucu Id'nizi Giriniz: ");
+                    System.out.println("Okuyucu ID'nizi Giriniz: ");
                     String returnReaderId = scanner.nextLine();
-                    System.out.println("İade Etmek İçin Kitap Id'sini Giriniz: ");
+
+                    Reader readerForReturn = library.findReaderById(returnReaderId);
+                    if (readerForReturn == null) {
+                        System.out.println("Okuyucu bulunamadı!");
+                        break;
+                    }
+
+                    System.out.println("İade Etmek İçin Kitap ID'sini Giriniz: ");
                     String returnBookId = scanner.nextLine();
-                    System.out.println("İade Tarihini Giriniz (YYYY-MM-DD: ");
+
+                    Book bookToReturn = library.findBookById(returnBookId);
+                    if (bookToReturn == null) {
+                        System.out.println("Kitap bulunamadı!");
+                        break;
+                    }
+
+                    System.out.println("İade Tarihini Giriniz (YYYY-MM-DD): ");
                     String returnDateInput = scanner.nextLine();
+
+                    LocalDate returnDate;
+                    try {
+                        returnDate = LocalDate.parse(returnDateInput);
+                    } catch (Exception e) {
+                        System.out.println("Tarih formatı hatalı! Örnek: 2025-11-30");
+                        break;
+                    }
+
                     System.out.println("Hasarlı Sayfa Sayısını Giriniz: ");
-                    while (!scanner.hasNextInt()){
+                    while (!scanner.hasNextInt()) {
                         System.out.println("Geçersiz giriş. Lütfen pozitif bir değer giriniz.");
                         scanner.next();
                     }
                     int damagedPages = scanner.nextInt();
                     scanner.nextLine();
 
-                    LocalDate returnDate = LocalDate.parse(returnDateInput);
-                    Reader readerForReturn = new Reader("Test Reader", returnReaderId);
-                    Book bookToReturn = library.findBookById(returnBookId);
-
-                    if(bookToReturn != null) {
-                        library.returnBook(readerForReturn, bookToReturn, returnDate, damagedPages);
-                    } else {
-                        System.out.println("Kitap Bulunamadı!");
+                    if (damagedPages < 0) {
+                        System.out.println("Hasarlı sayfa sayısı negatif olamaz.");
+                        break;
                     }
+
+                    library.returnBook(readerForReturn, bookToReturn, returnDate, damagedPages);
                     break;
 
                 case 8:
@@ -166,6 +201,15 @@ public class Main {
                     break;
 
                 case 11:
+                    System.out.println("Kütüphanedeki Tüm Kitaplar:");
+                    if (library.getBookMap().isEmpty()) {
+                        System.out.println("Kütüphanede kitap bulunmamaktadır.");
+                    } else {
+                        library.getBookMap().values().forEach(book -> System.out.println(book.getDetails()));
+                    }
+                    break;
+
+                case 12:
                     System.out.println("Sistemden Çıkılıyor!");
                     scanner.close();
                     return;

@@ -1,4 +1,4 @@
-package model.book;
+package model;
 
 import model.enums.BookCategory;
 
@@ -9,10 +9,10 @@ public class Book {
     private String status;
     private BookCategory category;
 
-    public Book(String book_ID, String author, String name, BookCategory category) {
+    public Book(String book_ID, String name, String author, BookCategory category) {
         this.book_ID = book_ID;
-        this.author = author;
         this.name = name;
+        this.author = author;
         this.status = "AVAILABLE";
         this.category = category;
     }
