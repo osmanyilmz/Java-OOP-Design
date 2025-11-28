@@ -2,16 +2,18 @@ package model;
 
 import model.enums.BookCategory;
 
+import java.util.Objects;
+
 public class Book {
-    private String book_ID;
+    private String bookId;
     private String name;
     private String author;
     private String status;
     private BookCategory category;
     private Reader owner;
 
-    public Book(String book_ID, String name, String author, BookCategory category) {
-        this.book_ID = book_ID;
+    public Book(String bookId, String name, String author, BookCategory category) {
+        this.bookId = bookId;
         this.name = name;
         this.author = author;
         this.category = category;
@@ -19,8 +21,8 @@ public class Book {
         this.owner = null;
     }
 
-    public String getBook_ID() {
-        return book_ID;
+    public String getBookId() {
+        return bookId;
     }
 
     public String getAuthor() {
@@ -44,7 +46,7 @@ public class Book {
     }
 
     public String getDetails() {
-        return "ID: " + book_ID + ", Title: " + name + ", Author: " + author + ", Status: " + status + ", Category: " + category;
+        return "ID: " + bookId + ", Title: " + name + ", Author: " + author + ", Status: " + status + ", Category: " + category;
     }
 
     public Reader getOwner() {
@@ -65,5 +67,26 @@ public class Book {
 
     public void setCategory(BookCategory category) {
         this.category = category;
+    }
+
+  @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || obj.getClass() != getClass())
+            return false;
+        Book book = (Book) obj;
+        return Objects.equals(bookId, book.bookId);
+    }
+
+    @Override
+    public int hashCode(){
+
+        return Objects.hash(bookId);
+    }
+
+    @Override
+    public String toString(){
+        return "BookId :" + bookId;
     }
 }

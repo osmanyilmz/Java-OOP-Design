@@ -119,11 +119,11 @@ public class Library {
     public void borrowBook(Reader reader, Book book, LocalDate borrowDate) {
         if (book.getStatus().equals("AVAILABLE")) {
             reader.borrowBook(book);
-            Borrowable record = new Borrowable(reader.getId(), book.getBook_ID(), borrowDate);
+            Borrowable record = new Borrowable(reader.getId(), book.getBookId(), borrowDate);
             borrowRecords.add(record);
             borrowRecordMap.computeIfAbsent(reader.getId(), k -> new ArrayList<>()).add(record);
             book.updateStatus("BORROWED");
-            bookMap.put(book.getBook_ID(), book);
+            bookMap.put(book.getBookId(), book);
             System.out.println("Kitap başarıyla ödünç alındı.");
         } else {
             System.out.println("Bu kitap mevcut değil.");
@@ -143,7 +143,7 @@ public class Library {
             return;
         }
 
-        Borrowable record = records.stream().filter(r -> r.getBookId().equals(book.getBook_ID())).findFirst().orElse(null);
+        Borrowable record = records.stream().filter(r -> r.getBookId().equals(book.getBookId())).findFirst().orElse(null);
 
         if(record != null) {
             record.setReturnDate(returnDate);
@@ -162,7 +162,7 @@ public class Library {
         System.out.println(bill.generateBill(returnDate, allowedDays, damagedPages));
 
         book.updateStatus("AVALIABLE");
-        bookMap.put(book.getBook_ID(),book);
+        bookMap.put(book.getBookId(),book);
         System.out.println("Kitap İade Süreci Tamamlandı.");
 
         Notification notification = new Notification("Kitap İade Edildi: " + book.getName() + ", Toplam Ücret: " + totalCharge + " TL", LocalDate.now());

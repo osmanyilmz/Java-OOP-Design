@@ -11,8 +11,8 @@ public class Librarian extends Person {
     }
 
     public void addBook(Book book){
-        library.getBookMap().put(book.getBook_ID(), book);
-        library.getBookIds().add(book.getBook_ID());
+        library.getBookMap().put(book.getBookId(), book);
+        library.getBookIds().add(book.getBookId());
         System.out.println(getName() + "adlı kütüphaneci kitap ekledi: " + book.getName());
     }
 
